@@ -11,7 +11,7 @@
 	</cfscript>
 	
 	<cffunction name="init" returntype="any" access="public" output="false">
-		<cfargument name="config" type="any" default="">
+		<cfargument name="config" type="any" default="" />
 		<cfset variables.config = arguments.config>
 	</cffunction>
 	
@@ -60,10 +60,10 @@
 				WHERE package = <cfqueryparam value="#variables.packageName#" cfsqltype="cf_sql_varchar" maxlength="100" />
 			</cfquery>
 			<cfif qoq.recordcount>
-				<cfreturn val(qoq.recordcount)>
+				<cfreturn val(qoq.recordcount) />
 			</cfif>
 		<cfelse>
-			<cfreturn result>
+			<cfreturn result />
 		</cfif>
 	</cffunction>
 
