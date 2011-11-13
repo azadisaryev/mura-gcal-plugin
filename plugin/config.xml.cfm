@@ -1,10 +1,10 @@
 <cfoutput><plugin>
 <name>MuraGCal Plugin</name>
 <package>MuraGCal</package>
-<version>1.3.20110213</version>
+<version>1.3.20111113</version>
 <provider>Azadi Saryev</provider>
-<providerURL>mailto:azadi.saryev@gmail.com</providerURL>
-<category>Application</category>
+<providerURL>https://github.com/azadisaryev/mura-gcal-plugin</providerURL>
+<category>Utility</category>
 <settings>
 	<setting>
 		<name>GCalID</name>
@@ -15,6 +15,19 @@
 		<validation></validation>
 		<regex></regex>
 		<message>Calendar ID is required</message>
+		<defaultvalue></defaultvalue>
+		<optionlist></optionlist>
+		<optionlabellist></optionlabellist>
+	</setting>
+	<setting>
+		<name>GCalName</name>
+		<label>Google Calendar Title</label>
+		<hint>Title of Google Calendar. If blank, default name of selected Calendar will be used. Control display using 'Show Calendar Title?' option below.</hint>
+		<type>textBox</type>
+		<required>false</required>
+		<validation></validation>
+		<regex></regex>
+		<message>Calendar Name is required</message>
 		<defaultvalue></defaultvalue>
 		<optionlist></optionlist>
 		<optionlabellist></optionlabellist>
@@ -87,13 +100,13 @@
 	<setting>
 		<name>GCalDate</name>
 		<label>Show Date?</label>
-		<hint>Select to show or hide date selector (default: show)</hint>
+		<hint>Select to show or hide date selector (default: hide)</hint>
 		<type>radioGroup</type>
 		<required>false</required>
 		<validation></validation>
 		<regex></regex>
 		<message></message>
-		<defaultvalue>1</defaultvalue>
+		<defaultvalue>0</defaultvalue>
 		<optionlist>1^0</optionlist>
 		<optionlabellist>Yes^No</optionlabellist>
 	</setting>
@@ -171,7 +184,7 @@
 		<validation>regex</validation>
 		<regex>^##([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$</regex>
 		<message>Color must be a valid Hex code in ##XXX or ##XXXXXX format</message>
-		<defaultvalue>##29527A</defaultvalue>
+		<defaultvalue>##36C</defaultvalue>
 		<optionlist></optionlist>
 		<optionlabellist></optionlabellist>
 	</setting>
@@ -184,7 +197,7 @@
 		<validation>regex</validation>
 		<regex>^##([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$</regex>
 		<message>Background Color must be a valid Hex code in ##XXX or ##XXXXXX format</message>
-		<defaultvalue>##FFFFFF</defaultvalue>
+		<defaultvalue>##FFF</defaultvalue>
 		<optionlist></optionlist>
 		<optionlabellist></optionlabellist>
 	</setting>

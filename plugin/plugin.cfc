@@ -1,9 +1,9 @@
 <cfcomponent output="false" extends="mura.plugin.plugincfc">
 
 	<cfscript>
-	variables.config = "";
+	variables.pluginConfig = "";
 	variables.author = "Azadi Saryev | azadi.saryev@gmail.com";
-	variables.pluginversion = "1.3.20110213";
+	variables.pluginVersion = "1.3.20111112";
 	variables.dateCreated = createDateTime(2011,02,13,0,0,0);
 	variables.packageName = "MuraGCal";
 	variables.extendedType = "Component";
@@ -11,18 +11,17 @@
 	</cfscript>
 	
 	<cffunction name="init" returntype="any" access="public" output="false">
-		<cfargument name="config" type="any" default="" />
-		<cfset variables.config = arguments.config>
+		<cfargument name="pluginConfig" type="any" default="" />
+		<cfset variables.pluginConfig = arguments.pluginConfig>
 	</cffunction>
 	
 	<cffunction name="install" returntype="void" access="public" output="no">
 		<cfscript>
-		var local = structNew();
-		local.moduleid = variables.config.getModuleID();
+		var moduleid = variables.pluginConfig.getModuleID();
 		if ( val(isGCalPluginInstalled()) eq 1 ) {
 			upstallGCalSubType();
 		} else {
-			variables.config.getPluginManager().deletePlugin(local.moduleid);
+			variables.pluginConfig.getPluginManager().deletePlugin(moduleid);
 		};
 		application.appInitialized = false;
 		</cfscript>
@@ -35,8 +34,7 @@
 	
 	<cffunction name="delete" returntype="void" access="public" output="false">
 		<cfscript>
-		var local = structNew();
-		local.reloadKey = variables.config.getConfigBean().getAppReloadKey();
+		var reloadKey = variables.pluginConfig.getConfigBean().getAppReloadKey();
 		// don't delete the subTypes if this is being invoked by the deletePlugin() from install()
 		if ( val(isGCalPluginInstalled()) eq 1 ) {
 			deleteSubType(type=variables.extendedType, subType=variables.packageName);
@@ -50,7 +48,7 @@
 	<cffunction name="isGCalPluginInstalled" returntype="any" access="private" output="false">
 		<cfscript>
 			var qoq = "";
-			var rs = variables.config.getConfigBean().getPluginManager().getAllPlugins();
+			var rs = variables.pluginConfig.getConfigBean().getPluginManager().getAllPlugins();
 			var result = 0;
 		</cfscript>
 		<cfif rs.recordcount>
@@ -69,7 +67,7 @@
 
 	<cffunction name="upstallGCalSubType" returntype="void" access="private" output="false">
 		<cfscript>
-		var qSites = variables.config.getAssignedSites();
+		var qSites = variables.pluginConfig.getAssignedSites();
 		var extendSet = "";
 		var attr = "";
 		var subType = "";
@@ -111,8 +109,17 @@
 			attr.setMessage( "Google Calendar ID is required" );
 			attr.save();
 			
-			attr = extendSet.getAttributeByName( "GCalWidth" );
+			attr = extendSet.getAttributeByName( "GCalName" );
 			attr.setOrderNo(2);
+			attr.setLabel( "Google Calendar Title" );
+			attr.setHint( "Title of Google Calendar. If blank, default name of selected Calendar will be used. Control display using 'Show Calendar Title?' option below." );
+			attr.setType( "TextBox" );
+			attr.setRequired( false );
+			attr.setDefaultValue( "" );
+			attr.save();
+			
+			attr = extendSet.getAttributeByName( "GCalWidth" );
+			attr.setOrderNo(3);
 			attr.setLabel( "Calendar Width (px)" );
 			attr.setHint( "Width of calendar container, in pixels." );
 			attr.setType( "TextBox" );
@@ -123,7 +130,7 @@
 			attr.save();
 			
 			attr = extendSet.getAttributeByName( "GCalHeight" );
-			attr.setOrderNo(3);
+			attr.setOrderNo(4);
 			attr.setLabel( "Calendar Height (px)" );
 			attr.setHint( "Height of calendar container, in pixels." );
 			attr.setType( "TextBox" );
@@ -134,7 +141,7 @@
 			attr.save();
 			
 			attr = extendSet.getAttributeByName( "GCalMode" );
-			attr.setOrderNo(4);
+			attr.setOrderNo(5);
 			attr.setLabel( "Calendar Mode" );
 			attr.setHint( "Select calendar displayed mode." );
 			attr.setType( "SelectBox" );
@@ -146,7 +153,7 @@
 			attr.save();
 			
 			attr = extendSet.getAttributeByName( "GCalPosition" );
-			attr.setOrderNo(5);
+			attr.setOrderNo(6);
 			attr.setLabel( "Calendar Position" );
 			attr.setHint( "Select calendar alignment on page." );
 			attr.setType( "SelectBox" );
@@ -157,7 +164,7 @@
 			attr.save();
 			
 			attr = extendSet.getAttributeByName( "GCalTitle" );
-			attr.setOrderNo(6);
+			attr.setOrderNo(7);
 			attr.setLabel( "Show Calendar Title?" );
 			attr.setHint( "Select to show or hide calendar's name (default: show)." );
 			attr.setType( "RadioGroup" );
@@ -167,17 +174,17 @@
 			attr.save();
 	
 			attr = extendSet.getAttributeByName( "GCalDate" );
-			attr.setOrderNo(7);
+			attr.setOrderNo(8);
 			attr.setLabel( "Show Date Selector?" );
 			attr.setHint( "Select to show or hide date selector (default: show)." );
 			attr.setType( "RadioGroup" );
-			attr.setDefaultValue( 1 );
+			attr.setDefaultValue( 0 );
 			attr.setOptionList( "1^0" );
 			attr.setOptionLabelList( "Yes^No" );
 			attr.save();
 			
 			attr = extendSet.getAttributeByName( "GCalTabs" );
-			attr.setOrderNo(8);
+			attr.setOrderNo(9);
 			attr.setLabel( "Show Tabs?" );
 			attr.setHint( "Select to show or hide calendar mode tabs (default: hide)." );
 			attr.setType( "RadioGroup" );
@@ -187,9 +194,9 @@
 			attr.save();
 			
 			attr = extendSet.getAttributeByName( "GCalNavButtons" );
-			attr.setOrderNo(9);
+			attr.setOrderNo(10);
 			attr.setLabel( "Show Navigation Buttons?" );
-			attr.setHint( "Select to show or hide border around calendar container (default: hide)." );
+			attr.setHint( "Select to show or hide prev/next day navigation buttons (default: hide)." );
 			attr.setType( "RadioGroup" );
 			attr.setDefaultValue( 0 );
 			attr.setOptionList( "1^0" );
@@ -197,16 +204,6 @@
 			attr.save();
 			
 			attr = extendSet.getAttributeByName( "GCalPrintIcon" );
-			attr.setOrderNo(10);
-			attr.setLabel( "Show Border?" );
-			attr.setHint( "Select to show or hide print icon (default: hide)." );
-			attr.setType( "RadioGroup" );
-			attr.setDefaultValue( 0 );
-			attr.setOptionList( "1^0" );
-			attr.setOptionLabelList( "Yes^No" );
-			attr.save();
-			
-			attr = extendSet.getAttributeByName( "GCalBorder" );
 			attr.setOrderNo(11);
 			attr.setLabel( "Show Print Icon?" );
 			attr.setHint( "Select to show or hide print icon (default: hide)." );
@@ -216,8 +213,18 @@
 			attr.setOptionLabelList( "Yes^No" );
 			attr.save();
 			
-			attr = extendSet.getAttributeByName( "GCalWeekStart" );
+			attr = extendSet.getAttributeByName( "GCalBorder" );
 			attr.setOrderNo(12);
+			attr.setLabel( "Show Border?" );
+			attr.setHint( "Select to show or hide border around calendar container (default: hide)." );
+			attr.setType( "RadioGroup" );
+			attr.setDefaultValue( 0 );
+			attr.setOptionList( "1^0" );
+			attr.setOptionLabelList( "Yes^No" );
+			attr.save();
+			
+			attr = extendSet.getAttributeByName( "GCalWeekStart" );
+			attr.setOrderNo(13);
 			attr.setLabel( "Week start day" );
 			attr.setHint( "Select first day of week (default: Sunday)." );
 			attr.setType( "SelectBox" );
@@ -227,29 +234,29 @@
 			attr.save();
 			
 			attr = extendSet.getAttributeByName( "GCalColor" );
-			attr.setOrderNo(13);
+			attr.setOrderNo(14);
 			attr.setLabel( "Color" );
 			attr.setHint( "Enter HEX code of calendar events' color." );
 			attr.setType( "TextBox" );
-			attr.setDefaultValue( "##29527A" );
+			attr.setDefaultValue( "##36C" );
 			attr.setValidation( "Regex" );
 			attr.setRegex( "^##([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$" );
 			attr.setMessage( "Color must be a valid Hex code in ##XXX or ##XXXXXX format" );
 			attr.save();
 			
 			attr = extendSet.getAttributeByName( "GCalBgColor" );
-			attr.setOrderNo(14);
+			attr.setOrderNo(15);
 			attr.setLabel( "Background Color" );
 			attr.setHint( "Enter HEX code of calendar's background color." );
 			attr.setType( "TextBox" );
-			attr.setDefaultValue( "##FFFFFF" );
+			attr.setDefaultValue( "##FFF" );
 			attr.setValidation( "Regex" );
 			attr.setRegex( "^##([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$" );
 			attr.setMessage( "Background Color must be a valid Hex code in ##XXX or ##XXXXXX format" );
 			attr.save();
 			
 			attr = extendSet.getAttributeByName( "GCalFooter" );
-			attr.setOrderNo(15);
+			attr.setOrderNo(16);
 			attr.setLabel( "Calendar Footer" );
 			attr.setHint( "Enter text/html to display below the calendar." );
 			attr.setType( "TextArea" );
@@ -263,15 +270,15 @@
 	<cffunction name="deleteSubType" returntype="any" access="private" output="false">
 		<cfargument name="type" required="true" type="string" />
 		<cfargument name="subType" required="true" type="string" />
-		<cfset var qSites = variables.config.getAssignedSites()>
-		<cfset var subType = application.classExtensionManager.getSubTypeBean()>
+		<cfset var qSites = variables.pluginConfig.getAssignedSites()>
+		<cfset var subTypeBean = application.classExtensionManager.getSubTypeBean()>
 		<cfloop query="qSites">
 			<cfscript>				
-			subType.setType(arguments.type);
-			subType.setSubType(arguments.subType);
-			subType.setSiteID(qSites.siteid);
-			subType.load();
-			subType.delete();
+			subTypeBean.setType(arguments.type);
+			subTypeBean.setSubType(arguments.subType);
+			subTypeBean.setSiteID(qSites.siteid);
+			subTypeBean.load();
+			subTypeBean.delete();
 			</cfscript>
 		</cfloop>
 	</cffunction>

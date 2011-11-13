@@ -1,0 +1,93 @@
+This plugin extends the Component display object with a MuraGCal sub-type (creates a new sub-type of Component) for displaying Google Calendar(s) on your Mura CMS site's pages.
+
+It allows you to create separate display objects for as many calendars as you want, each with individual display settings, and include them (individually or in any combination) into your pages. 
+
+I. INSTALLATION / UPDATING
+- Download the plugin ZIP file. No need to un-pack it. 
+- Go to Site Settings->Global Settings->Plugins tab.
+- Click [Choose File] button under "Upload new plugin" and select plugin's ZIP file.
+- Click [Deploy] button.
+- IMPORTANT: Select a value (does not matter which one) for ALL radio buttons. You do not need to set any other plugin options at this time. Selecting radio button options is required because otherwise Mura's pluginManager.cfc will throw an error. (For some reason when plugin options are rendered on install/update none of default values specified in config.xml are rendered on screen, thus plugin options defined as radio buttons do not exist on form submit unless selected).
+- Select which site(s) to enable the plugin for under Site Assignment
+- click Update button
+
+Now the plugin is installed.
+
+Updating the plugin is exactly the same, except in step 3 above first go to Plugin Settings page for MuraGCal Plugin (click on pencil icon in the plugin's row), and click 'Update Plugin Version' link.
+
+II. USE
+After installing the plugin, you will have a new Component/MuraGCal component type in the Type selector on Components->Add Component page in Mura Admin.
+First, create a new MuraGCal type component:
+- go to Components->Add Component
+- select "Compenent / MuraGCal" under Type
+- enter Title (some descriptive name that will tell you which calendar and view mode this component displays is best, like 'GCal - US Holidays - Month View')
+- do not enter anything into Content - it will not be displayed anyway
+- click on Extended Attributes tab and configure the calendar (see CONFIGURATION OPTIONS below)
+- click [Publish] button at the bottom of page to save the component
+
+Repeat the above for every Google Calendar you want to use in your site.
+
+To display MuraGcal calendar(s) on your page:
+- open page for editing in Site Manager
+- click on Content Objects tab
+- select Components under Available Content Objects
+- select the calendar you want to include in the components list and add it to one of your page's display regions
+- if necessary, add any other calendar components you created to the same page
+- click one of the buttons at the bottom of the page to save your changes
+
+Voila, you now have a Google Calendar (or several) displayed in your page.
+
+III. CONFIGURATION OPTIONS
+
+Available config options are the same as allowed by Google Embeddable Calendar Helper (accessible via Calendar Settings in Google Calendar).
+
+Google Calendar ID [required, numeric] :
+ID of Google Calendar to render. This can be found on Calendar Details tab in Google Calendar settings. 
+
+Calendar Name [optional, string, default=''] :
+Name of Google Calendar. If left blank, default name of selected calendar will be used. Display can be controlled using 'Show Calendar Title?' option below.
+
+Calendar Width (px) [required, numeric, default=300] :
+Width of calendar container, in pixels.
+
+Calendar Height (px) [required, numeric, default=300] :
+Height of calendar container, in pixels.
+
+Calendar Mode [default=Agenda] :
+Calendar display mode. Select between Agenda, Month or Week view.
+
+Calendar Position [default=Center] :
+Calendar position/alignment on page. Select between Center, Left or Right. Left/Right alignment is done using CSS float.
+
+Show Calendar Title? [default=Yes] :
+Select to show or hide calendar title
+
+Show Date Selector? [default=No] :
+Select to show or hide date selector (pop-out date picker for jumping to a date).
+
+Show Tabs? [default=No] :
+Select to show or hide tabs for switching calendar diapley mode.
+
+Show Navigation Buttons? [default=No] :
+Select to show or hide prev/next navigation buttons.
+
+Show Print Icon? [default=No] :
+Select to show or hide 'Print calendar' icon.
+
+Show Border? [default=No] :
+Select to show or hide border around calendar container.
+
+Week start day [default=Sunday] :
+Select first day of week.
+
+Color [required, string, default=#36C] :
+HEX code (3 or 6 characters) of calendar's events colour.
+(Note: may be changed to a select drop-down with default Google calendar colours instead to normalize display of events and event text)
+
+Background Color [required, string, default=#fff] :
+HEX code of calendar's background colour.
+
+Calendar Footer [optional, string, default=''] :
+Enter text/html to display below the calendar. Experimental. Use at your own risk :)
+
+
