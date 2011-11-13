@@ -26,7 +26,7 @@
 			str = str & '&amp;showTitle=0';
 		}
 		else {
-			if ( len(trim($component('GCalName'))) ) { str = str & '&amp;title=' & urlencodedformat(trim($.component('GCalName'))); }
+			if ( len(trim($.component('GCalName'))) ) { str = str & '&amp;title=' & urlencodedformat(trim($.component('GCalName'))); }
 		}
 		if ( not val($.component('GCalDate')) ) { str = str & '&amp;showDate=0'; }
 		if ( not val($.component('GCalTabs')) ) { str = str & '&amp;showTabs=0'; }
