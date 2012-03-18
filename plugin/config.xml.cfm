@@ -1,15 +1,18 @@
-<cfoutput><plugin>
+<cfoutput>
+<plugin>
+
 <name>MuraGCal Plugin</name>
 <package>MuraGCal</package>
-<version>1.3.20111113</version>
+<version>1.3.20120318</version>
 <provider>Azadi Saryev</provider>
 <providerURL>https://github.com/azadisaryev/mura-gcal-plugin</providerURL>
 <category>Utility</category>
+
 <settings>
 	<setting>
 		<name>GCalID</name>
 		<label>Google Calendar ID</label>
-		<hint>ID of Google Calendar to render. This can be found on Calendar Details tab in Google Calendar settings.</hint>
+		<hint>ID(s) of Google Calendar(s) to render. This can be found on Calendar Details tab in Google Calendar settings. Separate multiple IDs with | (pipe).</hint>
 		<type>textBox</type>
 		<required>false</required>
 		<validation></validation>
@@ -21,13 +24,13 @@
 	</setting>
 	<setting>
 		<name>GCalName</name>
-		<label>Google Calendar Title</label>
-		<hint>Title of Google Calendar. If blank, default name of selected Calendar will be used. Control display using 'Show Calendar Title?' option below.</hint>
+		<label>Calendar Title</label>
+		<hint>Title of this Calendar. Control display using 'Show Calendar Title?' option below.</hint>
 		<type>textBox</type>
 		<required>false</required>
 		<validation></validation>
 		<regex></regex>
-		<message>Calendar Name is required</message>
+		<message>Calendar Title is required</message>
 		<defaultvalue></defaultvalue>
 		<optionlist></optionlist>
 		<optionlabellist></optionlabellist>
@@ -177,13 +180,13 @@
 	</setting>
 	<setting>
 		<name>GCalColor</name>
-		<label>Color</label>
-		<hint>Type Hex code of calendar events' color</hint>
+		<label>Event Colors</label>
+		<hint>Hex code of calendar events' color in ##xxx or ##xxxxxx format. If using multiple calendars, separate colors for each with | (pipe). First color is assumed as default and will be used for any calendar which does not have a color specified (i.e. if you specified 3 calendar IDs but only 2 colors, the 3rd calendar will be displayed using the first color code here).</hint>
 		<type>textBox</type>
 		<required>no</required>
 		<validation>regex</validation>
-		<regex>^##([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$</regex>
-		<message>Color must be a valid Hex code in ##XXX or ##XXXXXX format</message>
+		<regex>^(##([0-9a-fA-F]{3}){1,2}\|?)+$</regex>
+		<message>Color must be a valid Hex code in ##xxx or ##xxxxxx format, or a |-delimited list of these.</message>
 		<defaultvalue>##36C</defaultvalue>
 		<optionlist></optionlist>
 		<optionlabellist></optionlabellist>
@@ -191,12 +194,12 @@
 	<setting>
 		<name>GCalBgColor</name>
 		<label>Background Color</label>
-		<hint>Type Hex code of calendar' background color</hint>
+		<hint>Type Hex code of calendar' background color in ##xxx or ##xxxxxx format.</hint>
 		<type>textBox</type>
 		<required>no</required>
 		<validation>regex</validation>
-		<regex>^##([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$</regex>
-		<message>Background Color must be a valid Hex code in ##XXX or ##XXXXXX format</message>
+		<regex>^##([0-9a-fA-F]{3}){1,2}$</regex>
+		<message>Background Color must be a valid Hex code in ##xxx or ##xxxxxx format.</message>
 		<defaultvalue>##FFF</defaultvalue>
 		<optionlist></optionlist>
 		<optionlabellist></optionlabellist>
@@ -215,8 +218,12 @@
 		<optionlabellist></optionlabellist>
 	</setting>
 </settings>
+
 <eventHandlers>
 	<eventHandler event="onApplicationLoad" component="eventHandlers.gcal" persist="false"/>
 </eventHandlers>
+
 <displayobjects location="global"/>
-</plugin></cfoutput>
+
+</plugin>
+</cfoutput>

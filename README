@@ -2,6 +2,14 @@ This plugin extends the Component display object with a MuraGCal sub-type (creat
 
 It allows you to create separate display objects for as many calendars as you want, each with individual display settings, and include them (individually or in any combination) into your pages. 
 
+CHANGELOG:
+1.3.20120318
+- plugin now allows |-delimited list of Calendar IDs and Event Colors to display aggregated calendar of multiple individual calendars
+- IMPORTANT: 'Default' extended attributes set for MuraGCal component sub-type created by the plugin is no longer used and is deleted on install/update! If you have a previous version of this plugin installed and have created component(s) based on it and used the 'Default' attributes set to configure them, make sure you edit the components and copy the 'Default' settings to 'MuraGCal Settings' attributes set in the Extended Attributes tab.
+
+1.3.20111112
+- initial release in Mura Plugin Store
+
 I. INSTALLATION / UPDATING
 - Download the plugin ZIP file. No need to un-pack it. 
 - Go to Site Settings->Global Settings->Plugins tab.
@@ -15,11 +23,13 @@ Now the plugin is installed.
 
 Updating the plugin is exactly the same, except in step 3 above first go to Plugin Settings page for MuraGCal Plugin (click on pencil icon in the plugin's row), and click 'Update Plugin Version' link.
 
+IMPORTANT: Updating to version 1.3.20120318 or later? READ THE IMPORTANT NOTE IN CHANGELOG ABOVE!
+
 II. USE
 After installing the plugin, you will have a new Component/MuraGCal component type in the Type selector on Components->Add Component page in Mura Admin.
 First, create a new MuraGCal type component:
 - go to Components->Add Component
-- select "Compenent / MuraGCal" under Type
+- select "Component / MuraGCal" under Type
 - enter Title (some descriptive name that will tell you which calendar and view mode this component displays is best, like 'GCal - US Holidays - Month View')
 - do not enter anything into Content - it will not be displayed anyway
 - click on Extended Attributes tab and configure the calendar (see CONFIGURATION OPTIONS below)
@@ -31,7 +41,7 @@ To display MuraGcal calendar(s) on your page:
 - open page for editing in Site Manager
 - click on Content Objects tab
 - select Components under Available Content Objects
-- select the calendar you want to include in the components list and add it to one of your page's display regions
+- select the calendar component(s) you want to include in the components list and add it to one of your page's display regions. *Make sure your page uses a template that has the display region you add the component to.*
 - if necessary, add any other calendar components you created to the same page
 - click one of the buttons at the bottom of the page to save your changes
 
@@ -41,11 +51,11 @@ III. CONFIGURATION OPTIONS
 
 Available config options are the same as allowed by Google Embeddable Calendar Helper (accessible via Calendar Settings in Google Calendar).
 
-Google Calendar ID [required, numeric] :
-ID of Google Calendar to render. This can be found on Calendar Details tab in Google Calendar settings. 
+Google Calendar ID [required, string] :
+ID(s) of Google Calendar(s) to display. This can be found on Calendar Details tab in Google Calendar settings. Separate multiple calendar IDs with | (pipe).
 
-Calendar Name [optional, string, default=''] :
-Name of Google Calendar. If left blank, default name of selected calendar will be used. Display can be controlled using 'Show Calendar Title?' option below.
+Calendar Title [required, string] :
+Title of Google Calendar. Display can be controlled using 'Show Calendar Title?' option (below). REQUIRED - even if you set 'Show Calendar Title' to No, you still must give the calendar a title.
 
 Calendar Width (px) [required, numeric, default=300] :
 Width of calendar container, in pixels.
@@ -80,12 +90,11 @@ Select to show or hide border around calendar container.
 Week start day [default=Sunday] :
 Select first day of week.
 
-Color [required, string, default=#36C] :
-HEX code (3 or 6 characters) of calendar's events colour.
-(Note: may be changed to a select drop-down with default Google calendar colours instead to normalize display of events and event text)
+Events Color [required, string, default=#36C] :
+Hex code (3 or 6 characters) of calendar's events colour in #xxx or #xxxxxx format, OR a |-delimited list of such if using multiple calendar IDs.
 
 Background Color [required, string, default=#fff] :
-HEX code of calendar's background colour.
+Hex code of calendar's background colour in #xxx or #xxxxxx format.
 
 Calendar Footer [optional, string, default=''] :
 Enter text/html to display below the calendar. Experimental. Use at your own risk :)
